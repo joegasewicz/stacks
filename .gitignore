@@ -1,0 +1,4 @@
+.idea
+tests_stacks/.idea
+cmake-build-debug
+test_stacks/cmake-build-debug
