@@ -7,7 +7,8 @@ A stack static library written in C
 ```
 ### Destroy
 ```c
-int res1 = S_Stack_destroy(my_stack);
+if (S_Stack_destroy(my_stack) < 0)
+    perror("panic!");
 ```
 
 ### Push
