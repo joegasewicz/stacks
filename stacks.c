@@ -28,11 +28,10 @@
 
 Stack * S_Stack_new(S_Options *o)
 {
-    char *err_str = "Failed to allocate memory";
     S_Options *default_options;
     Stack *s = malloc(sizeof(Stack));
     if (s == NULL)
-        perror(err_str);
+        goto error;
     s->length = 0;
     s->curr_index = 0;
     s->top_index = 0;
@@ -43,7 +42,7 @@ Stack * S_Stack_new(S_Options *o)
     {
         default_options = malloc(sizeof(S_Options));
         if (default_options == NULL)
-            perror(err_str);
+            goto error;
         default_options->max_length = 0;
         default_options->dynamic = true;
         s->options = default_options;
@@ -51,12 +50,43 @@ Stack * S_Stack_new(S_Options *o)
     }
     s->options = malloc(sizeof(S_Options));
     if (s->options == NULL)
-        perror(err_str);
+        goto error;
     s->options->max_length = o->max_length;
     s->options->dynamic = false; // set default
     if (o->max_length == 0)
         s->options->dynamic = true;
     return s;
+error:
+    perror("Failed to allocate memory");
+    return NULL;
+}
+
+int S_Stack_destroy(Stack *stack)
+{
+    if (stack == NULL)
+        return S_OK;
+    if (stack->nodes == NULL)
+    {
+        free(stack);
+        return S_OK;
+    }
+    Node *currNode = NULL;
+    Node *linkNode = stack->nodes;
+    while (linkNode != NULL)
+    {
+        if (linkNode->link == NULL)
+        {
+            free(linkNode);
+            break;
+        }
+        currNode = linkNode;
+        linkNode = linkNode->link;
+        if (currNode != NULL)
+            free(currNode);
+    }
+    free(stack->options);
+    free(stack);
+    return S_OK;
 }
 
 int S_Stack_push(Stack *stack, void *data)

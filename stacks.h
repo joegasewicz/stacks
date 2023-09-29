@@ -53,8 +53,18 @@ typedef struct Stack_ {
     int top_index;
 } Stack;
 
+
 Stack * S_Stack_new(S_Options *o);
+
+int S_Stack_destroy(Stack *stack);
+
 int S_Stack_push(Stack *stack, void *data);
+// pop
+// peek
+// stack size
+
+
+
 
 
 #endif //STACKS_STACKS_H

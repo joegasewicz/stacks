@@ -37,8 +37,23 @@ static void test_S_Stack_new(void **state)
     free(s3);
 }
 
-static void test_S_Stack_push1(void **state) {
-    // Test Single Node
+static void test_S_Stack_destroy(void **state)
+{
+    Stack *s1 = S_Stack_new(NULL);
+    int data1 = 1;
+    int data2 = 2;
+    int data3 = 3;
+    S_Stack_push(s1, &data1);
+    S_Stack_push(s1, &data2);
+    S_Stack_push(s1, &data3);
+    int res1 = S_Stack_destroy(s1);
+    assert_int_equal(res1, S_OK);
+    assert_null(s1->nodes);
+}
+
+static void test_S_Stack_push1(void **state)
+{
+    // Test Single node
     Stack *s1 = S_Stack_new(NULL);
     assert_int_equal(s1->options->max_length, 0);
     assert_int_equal(s1->options->dynamic, true);
@@ -58,7 +73,14 @@ static void test_S_Stack_push1(void **state) {
 
 static void test_S_Stack_push2(void **state)
 {
-
+    // Test multiple nodes
+    Stack *s1 = S_Stack_new(NULL);
+    int data1 = 1;
+    int data2 = 2;
+    int data3 = 3;
+    S_Stack_push(s1, &data1);
+    S_Stack_push(s1, &data2);
+    S_Stack_push(s1, &data3);
 }
 
 int main()
@@ -66,6 +88,7 @@ int main()
     const struct CMUnitTest tests[] =
     {
             cmocka_unit_test(null_test_success),
+            //cmocka_unit_test(test_S_Stack_destroy),
             cmocka_unit_test(test_S_Stack_new),
             cmocka_unit_test(test_S_Stack_push1)
     };
