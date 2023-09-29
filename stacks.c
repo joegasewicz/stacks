@@ -112,12 +112,23 @@ int S_Stack_push(Stack *stack, void *data)
     return S_OK;
 }
 
-void S_push(Node *curr_node, void *data)
+void *S_Stack_pop(Stack *stack)
 {
-    Node *n = malloc(sizeof(Node));
-    if (n != NULL)
+    Node *tempPtr = NULL;
+    void *dataPtr = NULL;
+    if (stack == NULL || stack->nodes == NULL)
+        goto exit;
+    tempPtr = stack->nodes;
+    if (stack->nodes->link == NULL)
     {
-        n->data = data;
-        n->link = curr_node;
+        free(stack->nodes);
+        return tempPtr->data;
     }
+    free(stack->nodes);
+    stack->nodes = tempPtr->link;
+    dataPtr = tempPtr->data;
+    free(tempPtr);
+    return dataPtr;
+exit:
+    return NULL;
 }
