@@ -47,7 +47,6 @@ static void test_S_Stack_destroy(void **state)
     S_Stack_push(s1, &data1);
     S_Stack_push(s1, &data2);
     S_Stack_push(s1, &data3);
-
     int res1 = S_Stack_destroy(s1);
     assert_int_equal(res1, S_OK);
 }
@@ -82,6 +81,10 @@ static void test_S_Stack_push2(void **state)
     S_Stack_push(s1, &data1);
     S_Stack_push(s1, &data2);
     S_Stack_push(s1, &data3);
+    assert_ptr_equal(s1->nodes->data, &data3);
+    assert_ptr_equal(s1->nodes->link->data, &data2);
+    assert_ptr_equal(s1->nodes->link->link->data, &data1);
+    S_Stack_destroy(s1);
 }
 
 int main()
@@ -91,7 +94,8 @@ int main()
             cmocka_unit_test(null_test_success),
             cmocka_unit_test(test_S_Stack_destroy),
             cmocka_unit_test(test_S_Stack_new),
-            cmocka_unit_test(test_S_Stack_push1)
+            cmocka_unit_test(test_S_Stack_push1),
+            cmocka_unit_test(test_S_Stack_push2)
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }
