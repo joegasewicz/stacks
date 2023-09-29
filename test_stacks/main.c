@@ -21,6 +21,7 @@ static void test_S_Stack_new(void **state)
     assert_int_equal(s->options->dynamic, false);
     // Test with max_length 0
     S_Options *options2 = malloc(sizeof(S_Options));
+    options2->max_length = 0;
     Stack *s2 = S_Stack_new(options2);
     assert_int_equal(s2->options->max_length, 0);
     // Test with no options
@@ -46,9 +47,9 @@ static void test_S_Stack_destroy(void **state)
     S_Stack_push(s1, &data1);
     S_Stack_push(s1, &data2);
     S_Stack_push(s1, &data3);
+
     int res1 = S_Stack_destroy(s1);
     assert_int_equal(res1, S_OK);
-    assert_null(s1->nodes);
 }
 
 static void test_S_Stack_push1(void **state)
@@ -88,7 +89,7 @@ int main()
     const struct CMUnitTest tests[] =
     {
             cmocka_unit_test(null_test_success),
-            //cmocka_unit_test(test_S_Stack_destroy),
+            cmocka_unit_test(test_S_Stack_destroy),
             cmocka_unit_test(test_S_Stack_new),
             cmocka_unit_test(test_S_Stack_push1)
     };
