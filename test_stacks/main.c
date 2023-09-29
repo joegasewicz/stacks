@@ -87,6 +87,26 @@ static void test_S_Stack_push2(void **state)
     S_Stack_destroy(s1);
 }
 
+static void test_S_Stack_pop(void **state)
+{
+    Stack *s1 = S_Stack_new(NULL);
+    int data1 = 1;
+    int data2 = 2;
+    int data3 = 3;
+    S_Stack_push(s1, &data1);
+    S_Stack_push(s1, &data2);
+    S_Stack_push(s1, &data3);
+    void* res3 = S_Stack_pop(s1);
+    assert_ptr_equal(res3, &data3);
+    assert_ptr_equal(s1->nodes->data, &data2);
+    void* res2 = S_Stack_pop(s1);
+    assert_ptr_equal(res2, &data2);
+    void* res1 = S_Stack_pop(s1);
+    assert_ptr_equal(res1, &data1);
+    assert_null(s1->nodes);
+    S_Stack_destroy(s1);
+}
+
 int main()
 {
     const struct CMUnitTest tests[] =
@@ -95,7 +115,8 @@ int main()
             cmocka_unit_test(test_S_Stack_destroy),
             cmocka_unit_test(test_S_Stack_new),
             cmocka_unit_test(test_S_Stack_push1),
-            cmocka_unit_test(test_S_Stack_push2)
+            cmocka_unit_test(test_S_Stack_push2),
+            cmocka_unit_test(test_S_Stack_pop)
     };
     return cmocka_run_group_tests(tests, NULL, NULL);
 }

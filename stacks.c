@@ -68,6 +68,7 @@ int S_Stack_destroy(Stack *stack)
         goto ok;
     if (stack->nodes == NULL)
     {
+        free(stack->options);
         free(stack);
         goto ok;
     }
@@ -121,10 +122,11 @@ void *S_Stack_pop(Stack *stack)
     tempPtr = stack->nodes;
     if (stack->nodes->link == NULL)
     {
+        dataPtr = tempPtr->data;
         free(stack->nodes);
-        return tempPtr->data;
+        stack->nodes = NULL;
+        return dataPtr;
     }
-    free(stack->nodes);
     stack->nodes = tempPtr->link;
     dataPtr = tempPtr->data;
     free(tempPtr);
