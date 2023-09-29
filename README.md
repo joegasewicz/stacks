@@ -18,6 +18,11 @@ S_Stack_push(my_stack, &data1);
 S_Stack_push(my_stack, &data2);
 ```
 
+### Pop
+```c
+void* data = S_Stack_pop(my_stack);
+```
+
 ### Peek
 ```c
 // TODO
