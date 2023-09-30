@@ -94,6 +94,8 @@ ok:
 
 int S_Stack_push(Stack *stack, void *data)
 {
+    if (stack->options->max_length != 0 && stack->options->max_length == stack->length)
+        return S_OUT_OF_BOUNDS_ERROR;
     Node *n = malloc(sizeof(Node));
     n->data = data;
     if (stack->nodes == NULL)

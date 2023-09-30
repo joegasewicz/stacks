@@ -72,11 +72,13 @@ static void test_S_Stack_push1(void **state)
 static void test_S_Stack_push2(void **state)
 {
     // Test multiple nodes
-    Stack *s1 = S_Stack_new(NULL);
+    S_Options options = (S_Options){ .max_length = 3, .dynamic = false };
+    Stack *s1 = S_Stack_new(&options);
     assert_int_equal(s1->length, 0);
     int data1 = 1;
     int data2 = 2;
     int data3 = 3;
+    int data4 = 4;
     S_Stack_push(s1, &data1);
     S_Stack_push(s1, &data2);
     S_Stack_push(s1, &data3);
@@ -84,6 +86,9 @@ static void test_S_Stack_push2(void **state)
     assert_ptr_equal(s1->nodes->data, &data3);
     assert_ptr_equal(s1->nodes->link->data, &data2);
     assert_ptr_equal(s1->nodes->link->link->data, &data1);
+    // test max_length
+    int res4 = S_Stack_push(s1, &data4);
+    assert_int_equal(res4, S_OUT_OF_BOUNDS_ERROR);
     S_Stack_destroy(s1);
 }
 
