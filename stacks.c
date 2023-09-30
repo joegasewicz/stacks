@@ -33,8 +33,6 @@ Stack * S_Stack_new(S_Options *o)
     if (s == NULL)
         goto error;
     s->length = 0;
-    s->curr_index = 0;
-    s->top_index = 0;
     s->nodes = NULL;
     s->top = NULL;
     //  If no options are set then create defaults
@@ -106,7 +104,7 @@ int S_Stack_push(Stack *stack, void *data)
     else
     {
         n->link = stack->nodes;
-        n->index = stack->nodes->index++;
+        n->index = stack->nodes->index + 1;
     }
     stack->nodes = n;
     stack->length++;
@@ -125,11 +123,13 @@ void *S_Stack_pop(Stack *stack)
         dataPtr = tempPtr->data;
         free(stack->nodes);
         stack->nodes = NULL;
+        stack->length--;
         return dataPtr;
     }
     stack->nodes = tempPtr->link;
     dataPtr = tempPtr->data;
     free(tempPtr);
+    stack->length--;
     return dataPtr;
 exit:
     return NULL;

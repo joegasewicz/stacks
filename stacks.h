@@ -32,6 +32,7 @@
 
 #define S_FIXED_SIZED 0
 #define S_OK 0
+#define S_OUT_OF_BOUNDS_ERROR (-1)
 
 typedef struct Node_ {
     void *data;
@@ -49,10 +50,13 @@ typedef struct Stack_ {
     Node* top;
     S_Options *options;
     int length;
-    int curr_index;
-    int top_index;
 } Stack;
 
+#define S_SIZE(stack) (stack->length)
+
+#define S_CURRENT_INDEX(stack) (stack->nodes->index)
+
+#define S_PEEK(stack) (stack->nodes->data)
 
 Stack * S_Stack_new(S_Options *o);
 
@@ -61,11 +65,5 @@ int S_Stack_destroy(Stack *stack);
 int S_Stack_push(Stack *stack, void *data);
 
 void *S_Stack_pop(Stack *stack);
-// peek
-// stack size
-
-
-
-
 
 #endif //STACKS_STACKS_H
