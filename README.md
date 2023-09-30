@@ -8,7 +8,7 @@ A stack structure static library written in C with a few extra features
 Options allow the stack length to be set to dynamic or static. 
 Without options the stack will have a dynamic length.
 ```c
- S_Stack *my_stack = S_Stack_new(NULL);
+Stack *my_stack = S_Stack_new(NULL);
 ```
 With options the stack will return a `S_OUT_OF_BOUNDS_ERROR`.
 ```c
